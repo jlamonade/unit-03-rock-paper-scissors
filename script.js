@@ -1,37 +1,66 @@
-// Dependencies (HTML Elements, Libraries, etc.) =====================
 
+var wins = 0;
+var losses = 0;
+var ties = 0;
+var choices = ["R", "P", "S"];
 
-// Starting Data =====================================================
-    // 1 initialize stats for the game wins/losses/ties
+function getUserChoice () {
+    var userChoice = prompt("Choose rock, paper or scissors. Please enter R, P, or S.").toUpperCase();
+    validateUserChoice(userChoice);
+    return userChoice;
+}
 
-// Functions =========================================================
-    // 4 choice is recorded
-    // 5 randomly generate number between 0 and 2
-    // 6 number determines computer choice of rock, paper, or scissors
-    // 7 check for win/loss/tie
-    // 10 if yes continue loop from begin round
+function validateUserChoice(choice) {
+    if (!choices.includes(choice)) {
+        alert("Not valid");
+        playGame();
+    }
+}
 
-// User Interactions =================================================
-    // 3 prompt user to enter a choice of rock, paper, or scissors
-    // 8 alert user to result // display results
-    // 9 ask user if they want to play again
+function getComputerChoice () {
+    var randomIndex = Math.floor(Math.random() * 3);
+    var computerChoice = choices[randomIndex];
+    return computerChoice;
+}
 
-// Initialization ====================================================
-    // 2 begin round
+function checkOutcomeAndAlert (userChoice, computerChoice) {
+    if (userChoice === computerChoice) {
+        ties += 1;
+        alert("Tie");
+    } else if (
+        (userChoice === "P" && computerChoice === "R") ||
+        (userChoice === "R" && computerChoice === "S") ||
+        (userChoice === "S" && computerChoice === "P")
+        ) {
+        wins += 1;
+        alert("Win");
+    } else {
+        losses += 1;
+        alert("Loss");
+    }
+    showStats();
+}
 
+function showStats() {
+    alert(
+        "Wins: " + wins + "\n" + 
+        "Losses:" + losses + "\n" + 
+        "Ties: " + ties
+        );
+}
 
+function playGame () {
+    // get the user choice
+    var userChoice = getUserChoice();
+    // get the computer choice
+    var computerChoice = getComputerChoice();
+    // check for a win
+    checkOutcomeAndAlert(userChoice, computerChoice);
+    
+    if (confirm("Play again?")) {
+        playGame();
+    }
+}
 
-// Pseudocode
-
-// initialize stats for the game wins/losses/ties
-// begin round
-// prompt user to enter a choice of rock, paper, or scissors
-// choice is recorded
-// randomly generate number between 0 and 2
-// number determines computer choice of rock, paper, or scissors
-// check for win/loss/tie
-// record outcome to stats
-// alert user to result
-// display results
-// ask user if they want to play again
-// if yes continue loop from begin round
+// initialize
+playGame();
